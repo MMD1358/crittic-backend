@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>daw2.mariomontes</groupId>
-	<artifactId>crittic</artifactId>
+	<artifactId>mensajeria</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>crittic</name>
-	<description>Proyecto crittic API</description>
+	<name>mensajeria</name>
+	<description>Práctica API</description>
 	<url/>
     <licenses>
         <license/>
