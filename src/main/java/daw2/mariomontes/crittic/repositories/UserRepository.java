@@ -1,0 +1,16 @@
+package daw2.mariomontes.crittic.repositories;
+
+import daw2.mariomontes.crittic.entities.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByUsername(String username);
+    boolean existsByUsername(String username);
+    boolean existsByEmail(String email);
+
+    @Query("select u.userId from User u where u.username = :username")
+    Long getIdByUsername(String username);
+}
