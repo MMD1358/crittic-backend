@@ -17,7 +17,7 @@ public class FileStorageService {
     private static final Logger logger =
             LoggerFactory.getLogger(FileStorageService.class);
     // Variable de entorno para la ruta de almacenamiento
-    @Value("${UPLOAD_PATH}")
+    @Value("${upload.path}")
     private String uploadPath;
     /**
      * Guarda un archivo en el sistema de archivos y devuelve el nombre del

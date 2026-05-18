@@ -60,7 +60,7 @@ CREATE TABLE review (
     review_id INT PRIMARY KEY AUTO_INCREMENT,
     user_id BIGINT NOT NULL,
     videogame_id INT NOT NULL,
-    rating INT NOT NULL,
+    rating DECIMAL(2,1) NOT NULL,
     content TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id),

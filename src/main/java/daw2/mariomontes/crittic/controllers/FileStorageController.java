@@ -25,7 +25,7 @@ public class FileStorageController {
     private static final Logger logger =
             LoggerFactory.getLogger(FileStorageController.class);
 
-    @Value("${UPLOAD_PATH}")
+    @Value("${upload.path}")
     private String uploadPath;
 
     @GetMapping("/{fileName}")

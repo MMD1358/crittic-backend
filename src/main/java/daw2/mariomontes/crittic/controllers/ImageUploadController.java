@@ -1,5 +1,6 @@
 package daw2.mariomontes.crittic.controllers;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -7,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Map;
 import java.util.UUID;
 
@@ -14,7 +16,8 @@ import java.util.UUID;
 @RequestMapping("/api/v1/uploads")
 public class ImageUploadController {
 
-    private final Path uploadPath = Paths.get("uploads");
+    @Value("${upload.path}")
+    private String uploadPath;
 
     @PostMapping("/profile-image")
     public ResponseEntity<Map<String, String>> uploadProfileImage(
@@ -24,19 +27,35 @@ public class ImageUploadController {
             throw new IllegalArgumentException("File is empty.");
         }
 
-        Files.createDirectories(uploadPath);
-
         String originalFilename = file.getOriginalFilename();
-        String extension = "";
 
-        if (originalFilename != null && originalFilename.contains(".")) {
-            extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+        if (originalFilename == null || !originalFilename.contains(".")) {
+            throw new IllegalArgumentException("Invalid file name.");
         }
+
+        String extension = originalFilename.substring(originalFilename.lastIndexOf(".")).toLowerCase();
+
+        if (!extension.equals(".jpg")
+                && !extension.equals(".jpeg")
+                && !extension.equals(".png")
+                && !extension.equals(".webp")) {
+            throw new IllegalArgumentException("Only JPG, PNG and WEBP images are allowed.");
+        }
+
+        Path uploadDirectory = Paths.get(uploadPath);
+        Files.createDirectories(uploadDirectory);
 
         String filename = UUID.randomUUID() + extension;
 
-        Path destination = uploadPath.resolve(filename);
-        Files.copy(file.getInputStream(), destination);
+        Path destination = uploadDirectory
+                .resolve(filename)
+                .normalize();
+
+        Files.copy(
+                file.getInputStream(),
+                destination,
+                StandardCopyOption.REPLACE_EXISTING
+        );
 
         return ResponseEntity.ok(Map.of("filename", filename));
     }

@@ -18,7 +18,9 @@ public class DotenvConfig {
             logger.info("Loading environment variables from .env file...");
 
             // Configuración y carga del archivo .env usando la librería Dotenv
-            Dotenv dotenv = Dotenv.configure().load();
+            Dotenv dotenv = Dotenv.configure()
+                    .ignoreIfMissing()
+                    .load();
 
             // Iterar sobre todas las entradas (clave-valor) del archivo .env y establecerlas como propiedades del sistema
             dotenv.entries().forEach(entry -> {
