@@ -35,4 +35,3 @@ build/
 ### VARIABLES DE ENTORNO DEL PROYECTO ###
 .env
 *.log
-uploads/
