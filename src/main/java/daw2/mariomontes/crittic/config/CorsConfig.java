@@ -9,25 +9,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsConfig {
 
-    @Value("${cors.allowed-origins:*}")
-    private String[] allowedOrigins;
+    @Value("${cors.allowed-origins:http://localhost:4200}")
+    private String allowedOrigins;
 
-    /**
-     * Esta es la configuración correcta para Spring Boot MVC (Tomcat).
-     * Cubre todas las peticiones HTTP de tu API.
-     */
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins(allowedOrigins)
+                        .allowedOrigins(allowedOrigins.split(","))
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
-                        .allowedHeaders("*")
+                        .allowedHeaders("Authorization", "Content-Type")
                         .allowCredentials(true);
             }
         };
     }
-
 }
